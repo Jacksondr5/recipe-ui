@@ -1,14 +1,29 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import logo from './logo.svg';
 import './App.css';
 
 function App() {
+
+  const [page, setPage] = useState<Object[]>();
+
+  const getAllRecipes = async () => {
+    const response = await fetch('http://localhost:3001/recipe');
+    const data: Object[] = await response.json();
+    console.log(data);
+    setPage(data);
+  }
+
+  useEffect(() => {
+    getAllRecipes()
+    console.log(page)
+  }, []);
+
+
   return (
     <div className="App">
       <header className="App-header">
         <img src={logo} className="App-logo" alt="logo" />
         <p>
-          Edit <code>src/App.tsx</code> and save to reload.
         </p>
         <a
           className="App-link"
