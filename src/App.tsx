@@ -1,14 +1,16 @@
 import React, { useEffect, useState } from 'react';
-import logo from './logo.svg';
+import "antd/dist/antd.css";
 import './App.css';
+import { Recipe } from './recipe';
+import { Collapse, Select } from 'antd';
+import { EditOutlined } from "@ant-design/icons";
 
 function App() {
-
-  const [page, setPage] = useState<Object[]>();
+  const [page, setPage] = useState<Recipe[]>();
 
   const getAllRecipes = async () => {
     const response = await fetch('http://localhost:3001/recipe');
-    const data: Object[] = await response.json();
+    const data: Recipe[] = await response.json();
     console.log(data);
     setPage(data);
   }
@@ -18,22 +20,50 @@ function App() {
     console.log(page)
   }, []);
 
+  const onChange = (key: string | string[]) => {
+    console.log(key);
+  };
+
+  const { Panel } = Collapse;
+  const { Option } = Select;
+
+  const genExtra = () => (
+    <EditOutlined
+      onClick={(event) => {
+        // If you don't want click extra trigger collapse, you can prevent this:
+        event.stopPropagation();
+      }}
+    />
+  );
 
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          margin: "50px auto",
+        }}
+      >
+        <h1>Recipe App</h1>
+      </div>
+
+      <div className="Ipad">
+        {page?.map((item, index) =>
+          <div className="Recipes" key = {index}> 
+            <Collapse 
+              onChange={onChange}
+              expandIconPosition='end'
+            >
+              <Panel header={item.name} key={index} extra={genExtra()}>
+                <div>{item.description}</div>
+              </Panel>
+            </Collapse>
+            <br/>
+          </div>
+        )}
+      </div>
     </div>
   );
 }

@@ -1,5 +1,9 @@
 .App {
-  text-align: center;
+  margin: 50px auto;
+  background-color: #282c34;
+  min-height: 100vh;
+  clear: both;
+  padding: 0;
 }
 
 .App-logo {
@@ -22,6 +26,20 @@
   justify-content: center;
   font-size: calc(10px + 2vmin);
   color: white;
+}
+
+.Ipad {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+  margin: 50px auto;
+  width: 500px;
+  border: solid red;
+}
+
+.Recipes {
+  width: 100%;
 }
 
 .App-link {
