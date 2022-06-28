@@ -7,43 +7,56 @@ import { EditOutlined } from "@ant-design/icons";
 
 function App() {
   const [page, setPage] = useState<Recipe[]>();
+  const [vision, setVision] = useState("block");
 
   const getAllRecipes = async () => {
     const response = await fetch("http://localhost:3001/recipe");
     const data: Recipe[] = await response.json();
-    console.log(data);
     setPage(data);
   };
 
   useEffect(() => {
     getAllRecipes();
-    console.log(page);
   }, []);
 
-  const onChange = (key: string | string[]) => {
-    console.log(key);
+  const onChange = (e: string | string[], id: number, thumbnail: string) => {
+    if (vision == "block") {
+      setVision("none");
+      deletePicture(id);
+    } else {
+      setVision("block");
+      showPicture(thumbnail, id);
+    }
   };
 
   const { Panel } = Collapse;
   const { Option } = Select;
 
   const genExtra = (thumbnail: string) => (
-    <div style={{ display: "flex", justifyContent: "space-between" }}>
-      <Image width={150} src={thumbnail} />
-      <EditOutlined
-        onClick={(event) => {
-          // If you don't want click extra trigger collapse, you can prevent this:
-          event.stopPropagation();
-        }}
-      />
-    </div>
+    <EditOutlined
+      onClick={(event) => {
+        // If you don't want click extra trigger collapse, you can prevent this:
+        event.stopPropagation();
+      }}
+    />
   );
 
-  const showPicture = (thumbnail: string) => {
+  const deletePicture = (id: number) => {
+    const element = document.getElementById(id.toString());
+    element?.remove();
+  };
+
+  const showPicture = (thumbnail: string, id: number) => {
     if (thumbnail !== "") {
       return (
         <>
-          <Image width={150} src={thumbnail} />
+          <Image
+            width={150}
+            style={{ display: vision } as React.CSSProperties}
+            src={thumbnail}
+            preview={false}
+            id={id.toString()}
+          />
         </>
       );
     }
@@ -56,9 +69,12 @@ function App() {
       <div className="Ipad">
         {page?.map((item, index) => (
           <div className="Recipes" key={index}>
-            <>{showPicture(item.thumbnail)}</>
+            <>{showPicture(item.thumbnail, item.id)}</>
             <div className="RecipeBox">
-              <Collapse onChange={onChange} expandIconPosition="end">
+              <Collapse
+                onChange={(e) => onChange(e, item.id, item.thumbnail)}
+                expandIconPosition="end"
+              >
                 <Panel
                   header={item.name}
                   key={index}
