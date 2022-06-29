@@ -2,8 +2,8 @@ import React, { useEffect, useState } from "react";
 import "antd/dist/antd.css";
 import "./App.css";
 import { Recipe } from "./recipe";
-import { Collapse, Select, Image } from "antd";
-import { EditOutlined } from "@ant-design/icons";
+import { Button, Collapse, Image } from "antd";
+import { DeleteOutlined, EditOutlined } from "@ant-design/icons";
 
 function App() {
   const [page, setPage] = useState<Recipe[]>();
@@ -20,7 +20,7 @@ function App() {
   }, []);
 
   const onChange = (e: string | string[], id: number, thumbnail: string) => {
-    if (vision == "block") {
+    if (vision === "block") {
       setVision("none");
       deletePicture(id);
     } else {
@@ -30,7 +30,6 @@ function App() {
   };
 
   const { Panel } = Collapse;
-  const { Option } = Select;
 
   const genExtra = (thumbnail: string) => (
     <EditOutlined
@@ -80,7 +79,36 @@ function App() {
                   key={index}
                   extra={genExtra(item.thumbnail)}
                 >
-                  <div>{item.description}</div>
+                  <div className="DescriptionBox">{item.description}</div>
+                  <div className="FirstHalf">
+                    <div className="IngredientBox">
+                      {item.ingredients.map((ingred, index) => (
+                        <div>{ingred}</div>
+                      ))}
+                    </div>
+                    <div className="MetadataBox">
+                      <p>Created: {item.metadata.created}</p>
+                      <p>Last Viewed: {item.metadata.lastViewed}</p>
+                      <p>Time to Cook: {item.metadata.timeToCook}</p>
+                    </div>
+                  </div>
+                  <div className="RecommendationTitle">Recommendations</div>
+                  <div className="RecommendationsBox">
+                    {item.link.map((rec, index) => (
+                      <div className="RecommendationCard">Recipe ID: {rec}</div>
+                    ))}
+                  </div>
+                  <div className="ButtonBox">
+                    <div className="ReadingButton">
+                      <Button>Reading Mode</Button>
+                    </div>
+                    <div className="CookingButton">
+                      <Button>Cooking Mode</Button>
+                    </div>
+                  </div>
+                  <div className="DeleteButton">
+                    <Button danger icon={<DeleteOutlined />}></Button>
+                  </div>
                 </Panel>
               </Collapse>
             </div>

@@ -55,6 +55,65 @@
   flex-grow:1;
 }
 
+.DescriptionBox {
+  display: flex;
+  border: solid yellow;
+}
+
+.FirstHalf {
+  display: flex;
+  display: inline-flex;
+  width: 100%;
+  justify-content: space-between;
+  border: solid black;
+}
+.IngredientBox {
+  display: flex;
+  flex-direction: column;
+  flex-basis: 66%;
+  border: solid green;
+}
+
+.MetadataBox {
+  display: flex;
+  flex-direction: column;
+  flex-basis: 33%;
+  border: solid purple;
+}
+
+.RecommendationTitle {
+  display: flex;
+  justify-content: center;
+}
+.RecommendationsBox {
+  display: flex;
+  justify-content: space-evenly;
+  border: solid cyan;
+}
+
+.RecommendationCard {
+  display: flex;
+  border: solid salmon;
+}
+
+.ButtonBox {
+  display: flex;
+  justify-content: space-evenly;
+  border: solid magenta;
+}
+.ReadingButton {
+  display: flex;
+}
+
+.CookingButton {
+  display: flex;
+}
+
+.DeleteButton {
+  display: flex;
+  justify-content: center;
+}
+
 .App-link {
   color: #61dafb;
 }
