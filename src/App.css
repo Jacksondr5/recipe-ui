@@ -57,6 +57,7 @@
 
 .DescriptionBox {
   display: flex;
+  padding-bottom: 15px;
   border: solid yellow;
 }
 
@@ -84,21 +85,27 @@
 .RecommendationTitle {
   display: flex;
   justify-content: center;
+  padding-top: 20px;
 }
 .RecommendationsBox {
   display: flex;
   justify-content: space-evenly;
+  padding-bottom: 20px;
   border: solid cyan;
 }
 
 .RecommendationCard {
   display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 5px;
   border: solid salmon;
 }
 
 .ButtonBox {
   display: flex;
   justify-content: space-evenly;
+  padding: 10px;
   border: solid magenta;
 }
 .ReadingButton {
@@ -112,6 +119,7 @@
 .DeleteButton {
   display: flex;
   justify-content: center;
+  padding: 15px;
 }
 
 .App-link {

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import "antd/dist/antd.css";
 import "./App.css";
 import { Recipe } from "./recipe";
@@ -7,31 +7,52 @@ import { DeleteOutlined, EditOutlined } from "@ant-design/icons";
 
 function App() {
   const [page, setPage] = useState<Recipe[]>();
-  const [vision, setVision] = useState("block");
 
   const getAllRecipes = async () => {
     const response = await fetch("http://localhost:3001/recipe");
     const data: Recipe[] = await response.json();
-    setPage(data);
+    if (data !== undefined) {
+      data.map((recipe) => {
+        if (recipe.thumbnail.image === "") {
+          recipe.thumbnail.show = false;
+        }
+      });
+      setPage(data);
+    }
   };
 
   useEffect(() => {
     getAllRecipes();
   }, []);
 
-  const onChange = (e: string | string[], id: number, thumbnail: string) => {
-    if (vision === "block") {
-      setVision("none");
-      deletePicture(id);
-    } else {
-      setVision("block");
-      showPicture(thumbnail, id);
+  const onChange = (
+    e: string | string[],
+    index: number,
+    image: string,
+    show: boolean
+  ) => {
+    if (page !== undefined) {
+      const tempPage: Recipe[] = [...page];
+      const recipe = { ...tempPage[index] };
+      if (image !== "") {
+        if (show === true) {
+          recipe.thumbnail.show = false;
+        } else {
+          recipe.thumbnail.show = true;
+        }
+        tempPage[index] = recipe;
+        setPage(tempPage);
+      } else {
+        recipe.thumbnail.show = false;
+        tempPage[index] = recipe;
+        setPage(tempPage);
+      }
     }
   };
 
   const { Panel } = Collapse;
 
-  const genExtra = (thumbnail: string) => (
+  const genExtra = () => (
     <EditOutlined
       onClick={(event) => {
         // If you don't want click extra trigger collapse, you can prevent this:
@@ -45,19 +66,38 @@ function App() {
     element?.remove();
   };
 
-  const showPicture = (thumbnail: string, id: number) => {
-    if (thumbnail !== "") {
+  const showPicture = (image: string, id: number, show: boolean) => {
+    if (image !== "" && show === true) {
       return (
         <>
-          <Image
-            width={150}
-            style={{ display: vision } as React.CSSProperties}
-            src={thumbnail}
-            preview={false}
-            id={id.toString()}
-          />
+          <Image width={150} src={image} preview={false} id={id.toString()} />
         </>
       );
+    } else if (image !== "" && show === false) {
+      deletePicture(id);
+    }
+  };
+
+  const logging = () => {
+    console.log("re-render");
+    console.log(page);
+  };
+
+  const getRecommendationPic = (id: string) => {
+    if (page !== undefined) {
+      var recommendation = page.find((item) => item.id === parseInt(id));
+      if (recommendation !== undefined) {
+        return recommendation.thumbnail.image;
+      }
+    }
+  };
+
+  const getRecommendationName = (id: string) => {
+    if (page !== undefined) {
+      var recommendation = page.find((item) => item.id === parseInt(id));
+      if (recommendation !== undefined) {
+        return recommendation.name;
+      }
     }
   };
 
@@ -68,22 +108,25 @@ function App() {
       <div className="Ipad">
         {page?.map((item, index) => (
           <div className="Recipes" key={index}>
-            <>{showPicture(item.thumbnail, item.id)}</>
+            <>
+              {/* {showPicture(item.thumbnail.image, item.id, item.thumbnail.show)} */}
+              {item.thumbnail.show && (
+                <Image width={150} src={item.thumbnail.image} preview={false} />
+              )}
+            </>
             <div className="RecipeBox">
               <Collapse
-                onChange={(e) => onChange(e, item.id, item.thumbnail)}
+                onChange={(e) =>
+                  onChange(e, index, item.thumbnail.image, item.thumbnail.show)
+                }
                 expandIconPosition="end"
               >
-                <Panel
-                  header={item.name}
-                  key={index}
-                  extra={genExtra(item.thumbnail)}
-                >
+                <Panel header={item.name} key={index} extra={genExtra()}>
                   <div className="DescriptionBox">{item.description}</div>
                   <div className="FirstHalf">
                     <div className="IngredientBox">
-                      {item.ingredients.map((ingred, index) => (
-                        <div>{ingred}</div>
+                      {item.ingredients.map((ingred, ingredIndex) => (
+                        <div key={ingredIndex}>{ingred}</div>
                       ))}
                     </div>
                     <div className="MetadataBox">
@@ -94,8 +137,13 @@ function App() {
                   </div>
                   <div className="RecommendationTitle">Recommendations</div>
                   <div className="RecommendationsBox">
-                    {item.link.map((rec, index) => (
-                      <div className="RecommendationCard">Recipe ID: {rec}</div>
+                    {item.link.map((rec, recIndex) => (
+                      <div className="RecommendationCard" key={recIndex}>
+                        <div>
+                          <Image width={100} src={getRecommendationPic(rec)} />
+                        </div>
+                        <p>{getRecommendationName(rec)}</p>
+                      </div>
                     ))}
                   </div>
                   <div className="ButtonBox">
