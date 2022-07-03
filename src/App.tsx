@@ -101,6 +101,12 @@ function App() {
     }
   };
 
+  const displayIngredient = (ingredient: string, starred: boolean) => {
+    if (starred === true) {
+      return ingredient;
+    }
+  };
+
   return (
     <div className="App">
       <h1>Recipe App</h1>
@@ -126,7 +132,10 @@ function App() {
                   <div className="FirstHalf">
                     <div className="IngredientBox">
                       {item.ingredients.map((ingred, ingredIndex) => (
-                        <div key={ingredIndex}>{ingred}</div>
+                        // <div key={ingredIndex}>{ingred}</div>
+                        <div>
+                          {displayIngredient(ingred.ingredient, ingred.starred)}
+                        </div>
                       ))}
                     </div>
                     <div className="MetadataBox">
