@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useState } from "react";
 import "antd/dist/antd.css";
 import "./App.css";
 import { Recipe } from "./recipe";
@@ -61,28 +61,6 @@ function App() {
     />
   );
 
-  const deletePicture = (id: number) => {
-    const element = document.getElementById(id.toString());
-    element?.remove();
-  };
-
-  const showPicture = (image: string, id: number, show: boolean) => {
-    if (image !== "" && show === true) {
-      return (
-        <>
-          <Image width={150} src={image} preview={false} id={id.toString()} />
-        </>
-      );
-    } else if (image !== "" && show === false) {
-      deletePicture(id);
-    }
-  };
-
-  const logging = () => {
-    console.log("re-render");
-    console.log(page);
-  };
-
   const getRecommendationPic = (id: string) => {
     if (page !== undefined) {
       var recommendation = page.find((item) => item.id === parseInt(id));
@@ -115,7 +93,6 @@ function App() {
         {page?.map((item, index) => (
           <div className="Recipes" key={index}>
             <>
-              {/* {showPicture(item.thumbnail.image, item.id, item.thumbnail.show)} */}
               {item.thumbnail.show && (
                 <Image width={150} src={item.thumbnail.image} preview={false} />
               )}
@@ -132,8 +109,7 @@ function App() {
                   <div className="FirstHalf">
                     <div className="IngredientBox">
                       {item.ingredients.map((ingred, ingredIndex) => (
-                        // <div key={ingredIndex}>{ingred}</div>
-                        <div>
+                        <div key={ingredIndex}>
                           {displayIngredient(ingred.ingredient, ingred.starred)}
                         </div>
                       ))}
