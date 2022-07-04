@@ -1,23 +1,29 @@
 import React, { useEffect, useState } from "react";
-import "antd/dist/antd.css";
+import "antd/dist/antd.min.css";
 import "./App.css";
 import { Recipe } from "./recipe";
 import { Button, Collapse, Image } from "antd";
 import { DeleteOutlined, EditOutlined } from "@ant-design/icons";
 
 function App() {
-  const [page, setPage] = useState<Recipe[]>();
+  const url = `${process.env.REACT_APP_URL}`;
+  if (url === undefined) {
+    throw new Error("invalid URL");
+  }
+  const [allRecipes, setAllRecipes] = useState<Recipe[]>([]);
 
   const getAllRecipes = async () => {
-    const response = await fetch("http://localhost:3001/recipe");
+    const response = await fetch(url);
     const data: Recipe[] = await response.json();
-    if (data !== undefined) {
+    if (data === undefined) {
+      throw new Error("bad api call");
+    } else {
       data.map((recipe) => {
         if (recipe.thumbnail.image === "") {
           recipe.thumbnail.show = false;
         }
       });
-      setPage(data);
+      setAllRecipes(data);
     }
   };
 
@@ -31,22 +37,20 @@ function App() {
     image: string,
     show: boolean
   ) => {
-    if (page !== undefined) {
-      const tempPage: Recipe[] = [...page];
-      const recipe = { ...tempPage[index] };
-      if (image !== "") {
-        if (show === true) {
-          recipe.thumbnail.show = false;
-        } else {
-          recipe.thumbnail.show = true;
-        }
-        tempPage[index] = recipe;
-        setPage(tempPage);
-      } else {
+    const tempPage: Recipe[] = [...allRecipes];
+    const recipe = { ...tempPage[index] };
+    if (image !== "") {
+      if (show === true) {
         recipe.thumbnail.show = false;
-        tempPage[index] = recipe;
-        setPage(tempPage);
+      } else {
+        recipe.thumbnail.show = true;
       }
+      tempPage[index] = recipe;
+      setAllRecipes(tempPage);
+    } else {
+      recipe.thumbnail.show = false;
+      tempPage[index] = recipe;
+      setAllRecipes(tempPage);
     }
   };
 
@@ -62,20 +66,16 @@ function App() {
   );
 
   const getRecommendationPic = (id: string) => {
-    if (page !== undefined) {
-      var recommendation = page.find((item) => item.id === parseInt(id));
-      if (recommendation !== undefined) {
-        return recommendation.thumbnail.image;
-      }
+    var recommendation = allRecipes.find((item) => item.id === parseInt(id));
+    if (recommendation !== undefined) {
+      return recommendation.thumbnail.image;
     }
   };
 
   const getRecommendationName = (id: string) => {
-    if (page !== undefined) {
-      var recommendation = page.find((item) => item.id === parseInt(id));
-      if (recommendation !== undefined) {
-        return recommendation.name;
-      }
+    var recommendation = allRecipes.find((item) => item.id === parseInt(id));
+    if (recommendation !== undefined) {
+      return recommendation.name;
     }
   };
 
@@ -90,7 +90,7 @@ function App() {
       <h1>Recipe App</h1>
 
       <div className="Ipad">
-        {page?.map((item, index) => (
+        {allRecipes.map((item, index) => (
           <div className="Recipes" key={index}>
             <>
               {item.thumbnail.show && (
@@ -108,6 +108,7 @@ function App() {
                   <div className="DescriptionBox">{item.description}</div>
                   <div className="FirstHalf">
                     <div className="IngredientBox">
+                      <h2>Ingredients</h2>
                       {item.ingredients.map((ingred, ingredIndex) => (
                         <div key={ingredIndex}>
                           {displayIngredient(ingred.ingredient, ingred.starred)}
@@ -120,7 +121,9 @@ function App() {
                       <p>Time to Cook: {item.metadata.timeToCook}</p>
                     </div>
                   </div>
-                  <div className="RecommendationTitle">Recommendations</div>
+                  <div className="RecommendationTitle">
+                    <h2>Recommendations</h2>
+                  </div>
                   <div className="RecommendationsBox">
                     {item.link.map((rec, recIndex) => (
                       <div className="RecommendationCard" key={recIndex}>
