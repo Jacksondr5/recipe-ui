@@ -33,24 +33,27 @@
 
 .DescriptionBox {
   display: flex;
+  flex-basis: 60%;
   padding-bottom: 15px;
 }
 
-.FirstHalf {
+.FirstSection {
   display: flex;
   display: inline-flex;
   width: 100%;
   justify-content: space-between;
-  padding-top: 30px;
-  border-top: solid rgb(238, 238, 238);
-  margin-top: 30px;
+  /* padding-top: 30px;
+  margin-top: 30px; */
+  margin-bottom: 15px;
 }
 .IngredientBox {
   display: flex;
   flex-direction: column;
   flex-basis: 60%;
   box-sizing: border-box;
+  align-items: center;
   padding: 10px;
+  border-top: solid rgb(238, 238, 238);
 }
 
 .MetadataBox {
