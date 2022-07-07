@@ -6,16 +6,23 @@ import { Button, Collapse, Image } from "antd";
 import { DeleteOutlined, EditOutlined } from "@ant-design/icons";
 
 function App() {
+  type uiRecipe = Recipe & {
+    thumbnail: {
+      show: boolean;
+    };
+  };
+
   const baseUrl = `${process.env.REACT_APP_API_URL}`;
   if (!baseUrl || baseUrl === "undefined") {
     throw new Error("The URL environment variable is undefined/missing");
   }
+
   const url = baseUrl + "/recipe";
-  const [allRecipes, setAllRecipes] = useState<Recipe[]>([]);
+  const [allRecipes, setAllRecipes] = useState<uiRecipe[]>([]);
 
   const getAllRecipes = async () => {
     const response = await fetch(url);
-    const data: Recipe[] = await response.json();
+    const data: uiRecipe[] = await response.json();
     if (!data) {
       throw new Error(
         "The fetch call did not return any data matching the Recipe Type"
@@ -25,6 +32,7 @@ function App() {
       if (recipe.thumbnail.image === "") {
         recipe.thumbnail.show = false;
       }
+      recipe.thumbnail.show = true;
     });
     setAllRecipes(data);
   };
@@ -34,7 +42,7 @@ function App() {
   }, []);
 
   const onChange = (index: number) => {
-    const tempPage: Recipe[] = [...allRecipes];
+    const tempPage: uiRecipe[] = [...allRecipes];
     const recipe = { ...tempPage[index] };
     if (recipe.thumbnail.image !== "") {
       if (recipe.thumbnail.show === true) {

@@ -11,7 +11,6 @@ export interface Recipe {
 
 export interface Thumbnail {
   image: string;
-  show: boolean;
 }
 
 export interface Ingredient {
