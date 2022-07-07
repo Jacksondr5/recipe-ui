@@ -7,7 +7,7 @@ import { DeleteOutlined, EditOutlined } from "@ant-design/icons";
 
 function App() {
   const baseUrl = `${process.env.REACT_APP_API_URL}`;
-  if (!baseUrl) {
+  if (!baseUrl || baseUrl === "undefined") {
     throw new Error("The URL environment variable is undefined/missing");
   }
   const url = baseUrl + "/recipe";
@@ -33,16 +33,11 @@ function App() {
     getAllRecipes();
   }, []);
 
-  const onChange = (
-    e: string | string[],
-    index: number,
-    image: string,
-    show: boolean
-  ) => {
+  const onChange = (index: number) => {
     const tempPage: Recipe[] = [...allRecipes];
     const recipe = { ...tempPage[index] };
-    if (image !== "") {
-      if (show === true) {
+    if (recipe.thumbnail.image !== "") {
+      if (recipe.thumbnail.show === true) {
         recipe.thumbnail.show = false;
       } else {
         recipe.thumbnail.show = true;
@@ -59,12 +54,14 @@ function App() {
   const { Panel } = Collapse;
 
   const genExtra = () => (
-    <EditOutlined
-      onClick={(event) => {
-        // If you don't want click extra trigger collapse, you can prevent this:
-        event.stopPropagation();
-      }}
-    />
+    <div className="App-Extra">
+      <EditOutlined
+        onClick={(event) => {
+          // If you don't want click extra trigger collapse, you can prevent this:
+          event.stopPropagation();
+        }}
+      />
+    </div>
   );
 
   const getRecommendationPic = (id: string) => {
@@ -85,66 +82,56 @@ function App() {
     }
   };
 
-  const displayIngredient = (ingredient: string, starred: boolean) => {
-    if (starred === true) {
-      return ingredient;
-    }
-  };
-
   return (
     <div className="App">
-      <h1>Recipe App</h1>
-
-      <div className="Ipad">
+      <div className="App-Ipad">
         {allRecipes.map((recipe, index) => (
-          <div className="Recipes" key={index}>
+          <div className="App-Recipes" key={index}>
             <>
               {recipe.thumbnail.show && (
                 <Image width={150} src={recipe.thumbnail.image} />
               )}
             </>
-            <div className="RecipeBox">
+            <div className="App-RecipeBox">
               <Collapse
-                onChange={(e) =>
-                  onChange(
-                    e,
-                    index,
-                    recipe.thumbnail.image,
-                    recipe.thumbnail.show
-                  )
-                }
+                onChange={() => onChange(index)}
                 expandIconPosition="end"
               >
                 <Panel
-                  header={<b style={{ fontSize: "20px" }}>{recipe.name}</b>}
+                  header={
+                    <div>
+                      <b style={{ fontSize: "20px", padding: "15px" }}>
+                        {recipe.name}
+                      </b>
+                    </div>
+                  }
                   key={index}
                   extra={genExtra()}
                 >
-                  <div className="FirstSection">
-                    <div className="DescriptionBox">{recipe.description}</div>
-                    <div className="MetadataBox">
+                  <div className="App-FirstSection">
+                    <div className="App-DescriptionBox">
+                      {recipe.description}
+                    </div>
+                    <div className="App-MetadataBox">
                       <p>Created: {recipe.metadata.created}</p>
                       <p>Last Viewed: {recipe.metadata.lastViewed}</p>
                       <p>Time to Cook: {recipe.metadata.timeToCook}</p>
                     </div>
                   </div>
-                  <div className="IngredientBox">
+                  <div className="App-IngredientBox">
                     <h2>Key Ingredients</h2>
                     {recipe.ingredients.map((ingredient, ingredIndex) => (
                       <div key={ingredIndex}>
-                        {displayIngredient(
-                          ingredient.ingredient,
-                          ingredient.starred
-                        )}
+                        {ingredient.starred && ingredient.ingredient}
                       </div>
                     ))}
                   </div>
-                  <div className="RecommendationTitle">
+                  <div className="App-RecommendationTitle">
                     <h2>Recommendations</h2>
                   </div>
-                  <div className="RecommendationsBox">
+                  <div className="App-RecommendationsBox">
                     {recipe.link.map((linkedRecipeId, recIndex) => (
-                      <div className="RecommendationCard" key={recIndex}>
+                      <div className="App-RecommendationCard" key={recIndex}>
                         <div>
                           <Image
                             width={100}
@@ -156,15 +143,15 @@ function App() {
                       </div>
                     ))}
                   </div>
-                  <div className="ButtonBox">
-                    <div className="ReadingButton">
+                  <div className="App-ButtonBox">
+                    <div className="App-ReadingButton">
                       <Button>Reading Mode</Button>
                     </div>
-                    <div className="CookingButton">
+                    <div className="App-CookingButton">
                       <Button>Cooking Mode</Button>
                     </div>
                   </div>
-                  <div className="DeleteButton">
+                  <div className="App-DeleteButton">
                     <Button danger icon={<DeleteOutlined />}></Button>
                   </div>
                 </Panel>

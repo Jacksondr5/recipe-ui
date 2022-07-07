@@ -11,7 +11,7 @@
   flex-direction: column;
 }
 
-.Ipad {
+.App-Ipad {
   display: flex;
   justify-content: center;
   flex-direction: column;
@@ -21,23 +21,23 @@
   width: 500px;
 }
 
-.Recipes {
+.App-Recipes {
   width: 100%;
   display: inline-flex;
   background-color: white;
 }
 
-.RecipeBox {
+.App-RecipeBox {
   flex-grow:1;
 }
 
-.DescriptionBox {
+.App-DescriptionBox {
   display: flex;
   flex-basis: 60%;
   padding-bottom: 15px;
 }
 
-.FirstSection {
+.App-FirstSection {
   display: flex;
   display: inline-flex;
   width: 100%;
@@ -46,7 +46,7 @@
   margin-top: 30px; */
   margin-bottom: 15px;
 }
-.IngredientBox {
+.App-IngredientBox {
   display: flex;
   flex-direction: column;
   flex-basis: 60%;
@@ -56,7 +56,7 @@
   border-top: solid rgb(238, 238, 238);
 }
 
-.MetadataBox {
+.App-MetadataBox {
   display: flex;
   flex-direction: column;
   flex-basis: 35%;
@@ -66,7 +66,7 @@
   background: rgb(238, 238, 238);
 }
 
-.RecommendationTitle {
+.App-RecommendationTitle {
   display: flex;
   justify-content: center;
   padding-top: 30px;
@@ -74,36 +74,42 @@
   margin-top: 30px;
 }
 
-.RecommendationsBox {
+.App-RecommendationsBox {
   display: flex;
   justify-content: space-evenly;
   padding-bottom: 20px;
 }
 
-.RecommendationCard {
+.App-RecommendationCard {
   display: flex;
   flex-direction: column;
   align-items: center;
   padding: 5px;
 }
 
-.ButtonBox {
+.App-ButtonBox {
   display: flex;
   justify-content: space-evenly;
   padding-top: 30px;
   border-top: solid rgb(238, 238, 238);
   margin-top: 10px;
 }
-.ReadingButton {
+.App-ReadingButton {
   display: flex;
 }
 
-.CookingButton {
+.App-CookingButton {
   display: flex;
 }
 
-.DeleteButton {
+.App-DeleteButton {
   display: flex;
   justify-content: center;
   padding: 15px;
+}
+
+.App-Extra {
+  display: flex;
+  justify-content:space-between;
+  padding: 10px;
 }
