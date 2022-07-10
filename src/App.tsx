@@ -6,7 +6,7 @@ import { Button, Collapse, Image } from "antd";
 import { DeleteOutlined, EditOutlined } from "@ant-design/icons";
 
 function App() {
-  type uiRecipe = Recipe & {
+  type UiRecipe = Recipe & {
     thumbnail: {
       show: boolean;
     };
@@ -18,11 +18,11 @@ function App() {
   }
 
   const url = baseUrl + "/recipe";
-  const [allRecipes, setAllRecipes] = useState<uiRecipe[]>([]);
+  const [allRecipes, setAllRecipes] = useState<UiRecipe[]>([]);
 
   const getAllRecipes = async () => {
     const response = await fetch(url);
-    const data: uiRecipe[] = await response.json();
+    const data: UiRecipe[] = await response.json();
     if (!data) {
       throw new Error(
         "The fetch call did not return any data matching the Recipe Type"
@@ -42,7 +42,7 @@ function App() {
   }, []);
 
   const onChange = (index: number) => {
-    const tempPage: uiRecipe[] = [...allRecipes];
+    const tempPage: UiRecipe[] = [...allRecipes];
     const recipe = { ...tempPage[index] };
     if (recipe.thumbnail.image !== "") {
       if (recipe.thumbnail.show === true) {
