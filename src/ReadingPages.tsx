@@ -84,6 +84,7 @@ export default function ReadingPage() {
           <div className="Reading-Image">
             <Image
               height={250}
+              width={250}
               src={readingRecipe.thumbnail.image}
               fallback={
                 "https://cdn.dribbble.com/users/88213/screenshots/8560585/media/7263b7aaa8077a322b0f12a7cd7c7404.png?compress=1&resize=400x300"

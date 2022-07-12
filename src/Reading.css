@@ -42,6 +42,7 @@
   display: flex;
   flex-basis: 60%;
   box-sizing: border-box;
+  object-fit: cover;
 }
 
 .Reading-Metadata {
