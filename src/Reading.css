@@ -1,0 +1,80 @@
+.Reading {
+  margin-bottom: 50px auto;
+  margin-top: 0px auto;
+  background-color: #282c34;
+  min-height: 100vh;
+  clear: both;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+}
+
+.Reading-Body {
+  width: 500px;
+}
+
+.Reading-Title {
+  color: white;
+  font-size: 40px;
+  align-items: center;
+  padding-bottom: 15px;
+}
+
+.Reading-Description {
+  display: flex;
+  padding: 15px;
+  margin-bottom: 15px;
+  color: white;
+  border-radius: 15px;
+}
+
+.Reading-FirstBox {
+  display: inline-flex;
+  width: 100%;
+  justify-content: space-between;
+  margin-bottom: 15px;
+  padding-bottom: 45px;
+  border-bottom: solid rgb(238, 238, 238);
+}
+
+.Reading-Image {
+  display: flex;
+  flex-basis: 60%;
+  box-sizing: border-box;
+}
+
+.Reading-Metadata {
+  display: flex;
+  flex-direction: column;
+  flex-basis: 35%;
+  padding: 15px;
+  border-radius: 15px;
+  box-sizing: border-box;
+  background: #2c384e;
+  color: white;
+}
+
+.Reading-SecondBox {
+  width: 100%;
+  display: inline-flex;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+
+.Reading-Steps {
+  display: flex;
+  padding-top: 15px;
+  flex-basis: 60%;
+  box-sizing: border-box;
+  color: white;
+}
+
+.Reading-ImageStep {
+  display: flex;
+  padding: 15px;
+  box-sizing: border-box;
+  justify-content: center;
+  align-items: center;
+  flex-basis: 30%;
+}

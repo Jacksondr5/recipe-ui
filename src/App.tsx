@@ -4,6 +4,7 @@ import "./App.css";
 import { Recipe } from "./recipe";
 import { Button, Collapse, Image } from "antd";
 import { DeleteOutlined, EditOutlined } from "@ant-design/icons";
+import { Link } from "react-router-dom";
 
 function App() {
   type UiRecipe = Recipe & {
@@ -19,6 +20,7 @@ function App() {
 
   const url = baseUrl + "/recipe";
   const [allRecipes, setAllRecipes] = useState<UiRecipe[]>([]);
+  const [loading, setLoading] = useState(true);
 
   const getAllRecipes = async () => {
     const response = await fetch(url);
@@ -31,10 +33,12 @@ function App() {
     data.map((recipe) => {
       if (recipe.thumbnail.image === "") {
         recipe.thumbnail.show = false;
+      } else {
+        recipe.thumbnail.show = true;
       }
-      recipe.thumbnail.show = true;
     });
     setAllRecipes(data);
+    setLoading(false);
   };
 
   useEffect(() => {
@@ -90,6 +94,10 @@ function App() {
     }
   };
 
+  if (loading) {
+    return <p>Data is loading...</p>;
+  }
+
   return (
     <div className="App">
       <div className="App-Ipad">
@@ -97,7 +105,12 @@ function App() {
           <div className="App-Recipes" key={index}>
             <>
               {recipe.thumbnail.show && (
-                <Image width={150} src={recipe.thumbnail.image} />
+                <Image
+                  height={150}
+                  width={150}
+                  src={recipe.thumbnail.image}
+                  style={{ objectFit: "cover" }}
+                />
               )}
             </>
             <div className="App-RecipeBox">
@@ -153,7 +166,9 @@ function App() {
                   </div>
                   <div className="App-ButtonBox">
                     <div className="App-ReadingButton">
-                      <Button>Reading Mode</Button>
+                      <Link to={`/reading/${index + 1}`} key={index}>
+                        <Button>Reading Mode</Button>
+                      </Link>
                     </div>
                     <div className="App-CookingButton">
                       <Button>Cooking Mode</Button>
