@@ -166,12 +166,14 @@ function App() {
                   </div>
                   <div className="App-ButtonBox">
                     <div className="App-ReadingButton">
-                      <Link to={`/reading/${index + 1}`} key={index}>
+                      <Link to={`/reading/${recipe.id}`} key={index}>
                         <Button>Reading Mode</Button>
                       </Link>
                     </div>
                     <div className="App-CookingButton">
-                      <Button>Cooking Mode</Button>
+                      <Link to={`/cooking/${recipe.id}`} key={index}>
+                        <Button>Cooking Mode</Button>
+                      </Link>
                     </div>
                   </div>
                   <div className="App-DeleteButton">

@@ -1,0 +1,83 @@
+.Cooking {
+  margin-bottom: 50px auto;
+  margin-top: 0px auto;
+  background-color: #282c34;
+  min-height: 100vh;
+  clear: both;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+}
+
+.Cooking-Title {
+  color: white;
+  font-size: 40px;
+  align-items: center;
+  padding-bottom: 15px;
+}
+
+.Cooking-Header {
+  display: flex;
+  align-items: center;
+  width: 1000px;
+}
+
+.Cooking-StepBar {
+  width: 100%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: solid rgb(238, 238, 238);
+}
+
+.Cooking-Previous {
+  display: flex;
+  justify-content: center;
+  margin-left: 100px;
+  width: 150px;
+  box-sizing: border-box;
+}
+
+.Cooking-Next {
+  display: flex;
+  justify-content: center;
+  margin-right: 100px;
+  width: 150px;
+  box-sizing: border-box;
+}
+
+.Cooking-CurrentStep {
+  display: flex;
+  padding: 15px;
+  font-weight: bold;
+  font-size: 40px;
+  color: white;
+}
+
+.Cooking-Body {
+  display: flex;
+  width: 1000px;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+
+.Cooking-StepImage {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  object-fit: cover;
+  margin-bottom: 50px;
+  margin-top: 50px;
+}
+
+.Cooking-Directions {
+  display: flex;
+  width: 70%;
+  text-align: justify;
+  color: white;
+  font-size: 25px;
+  padding: 20px;
+}

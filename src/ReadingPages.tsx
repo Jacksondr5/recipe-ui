@@ -42,7 +42,12 @@ export default function ReadingPage() {
     throw new Error("id is undefined");
   }
 
-  const readingUrl = "http://localhost:3001/recipe/" + id;
+  const baseUrl = `${process.env.REACT_APP_API_URL}`;
+  if (!baseUrl || baseUrl === "undefined") {
+    throw new Error("The URL environment variable is undefined/missing");
+  }
+
+  const readingUrl = baseUrl + "/recipe/" + id;
 
   const getRecipe = async () => {
     const response = await fetch(readingUrl);
