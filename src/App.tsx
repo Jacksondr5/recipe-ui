@@ -4,9 +4,10 @@ import "./App.css";
 import { Recipe } from "./recipe";
 import { Button, Collapse, Image } from "antd";
 import { DeleteOutlined, EditOutlined } from "@ant-design/icons";
+import { Link } from "react-router-dom";
 
 function App() {
-  type uiRecipe = Recipe & {
+  type UiRecipe = Recipe & {
     thumbnail: {
       show: boolean;
     };
@@ -18,11 +19,12 @@ function App() {
   }
 
   const url = baseUrl + "/recipe";
-  const [allRecipes, setAllRecipes] = useState<uiRecipe[]>([]);
+  const [allRecipes, setAllRecipes] = useState<UiRecipe[]>([]);
+  const [loading, setLoading] = useState(true);
 
   const getAllRecipes = async () => {
     const response = await fetch(url);
-    const data: uiRecipe[] = await response.json();
+    const data: UiRecipe[] = await response.json();
     if (!data) {
       throw new Error(
         "The fetch call did not return any data matching the Recipe Type"
@@ -31,10 +33,12 @@ function App() {
     data.map((recipe) => {
       if (recipe.thumbnail.image === "") {
         recipe.thumbnail.show = false;
+      } else {
+        recipe.thumbnail.show = true;
       }
-      recipe.thumbnail.show = true;
     });
     setAllRecipes(data);
+    setLoading(false);
   };
 
   useEffect(() => {
@@ -42,7 +46,7 @@ function App() {
   }, []);
 
   const onChange = (index: number) => {
-    const tempPage: uiRecipe[] = [...allRecipes];
+    const tempPage: UiRecipe[] = [...allRecipes];
     const recipe = { ...tempPage[index] };
     if (recipe.thumbnail.image !== "") {
       if (recipe.thumbnail.show === true) {
@@ -90,6 +94,10 @@ function App() {
     }
   };
 
+  if (loading) {
+    return <p>Data is loading...</p>;
+  }
+
   return (
     <div className="App">
       <div className="App-Ipad">
@@ -97,7 +105,12 @@ function App() {
           <div className="App-Recipes" key={index}>
             <>
               {recipe.thumbnail.show && (
-                <Image width={150} src={recipe.thumbnail.image} />
+                <Image
+                  height={150}
+                  width={150}
+                  src={recipe.thumbnail.image}
+                  style={{ objectFit: "cover" }}
+                />
               )}
             </>
             <div className="App-RecipeBox">
@@ -153,10 +166,14 @@ function App() {
                   </div>
                   <div className="App-ButtonBox">
                     <div className="App-ReadingButton">
-                      <Button>Reading Mode</Button>
+                      <Link to={`/reading/${recipe.id}`} key={index}>
+                        <Button>Reading Mode</Button>
+                      </Link>
                     </div>
                     <div className="App-CookingButton">
-                      <Button>Cooking Mode</Button>
+                      <Link to={`/cooking/${recipe.id}`} key={index}>
+                        <Button>Cooking Mode</Button>
+                      </Link>
                     </div>
                   </div>
                   <div className="App-DeleteButton">
