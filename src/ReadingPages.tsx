@@ -11,16 +11,9 @@ export default function ReadingPage() {
   const [readingRecipe, setReadingRecipe] = useState<Recipe>(emptyRecipe);
   const [loading, setLoading] = useState(true);
 
-  const readingUrl = FetchRecipe();
-
+  const id = useParams().recipeId;
   const getRecipe = async () => {
-    const response = await fetch(readingUrl);
-    const data: Recipe = await response.json();
-    if (!data) {
-      throw new Error(
-        "The fetch call did not return any data matching the Recipe Type"
-      );
-    }
+    const data = await FetchRecipe(id);
     setReadingRecipe(data);
     setLoading(false);
   };

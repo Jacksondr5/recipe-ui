@@ -12,16 +12,9 @@ export default function CookingPages() {
   const [loading, setLoading] = useState(true);
   const [page, setPage] = useState(0);
 
-  const cookingUrl = FetchRecipe();
-
+  const id = useParams().recipeId;
   const getRecipe = async () => {
-    const response = await fetch(cookingUrl);
-    const data: Recipe = await response.json();
-    if (!data) {
-      throw new Error(
-        "The fetch call did not return any data matching the Recipe Type"
-      );
-    }
+    const data = await FetchRecipe(id);
     setCookingRecipe(data);
     setLoading(false);
   };
@@ -30,38 +23,32 @@ export default function CookingPages() {
     getRecipe();
   }, []);
 
-  const renderPrevious = () => {
-    if (page === 0) {
-      return;
-    } else {
-      return (
-        <Button size="large" shape="round" onClick={() => setPage(page - 1)}>
-          {"<"} Prev
-        </Button>
-      );
-    }
-  };
-
-  const renderNext = () => {
-    if (page === cookingRecipe.steps.length - 1) {
-      return;
-    } else {
-      return (
-        <Button size="large" shape="round" onClick={() => setPage(page + 1)}>
-          Next {">"}
-        </Button>
-      );
-    }
-  };
-
   const renderHeader = () => {
     return (
       <div className="Cooking-StepBar">
-        <div className="Cooking-Previous">{renderPrevious()}</div>
+        <div className="Cooking-Previous">
+          <Button
+            size="large"
+            shape="round"
+            onClick={() => setPage(page - 1)}
+            disabled={page === 0}
+          >
+            {"<"} Prev
+          </Button>
+        </div>
         <div className="Cooking-CurrentStep">
           <p>Step: {cookingRecipe.steps[page].step}</p>
         </div>
-        <div className="Cooking-Next">{renderNext()}</div>
+        <div className="Cooking-Next">
+          <Button
+            size="large"
+            shape="round"
+            onClick={() => setPage(page + 1)}
+            disabled={page === cookingRecipe.steps.length - 1}
+          >
+            Next {">"}
+          </Button>
+        </div>
       </div>
     );
   };
@@ -75,7 +62,6 @@ export default function CookingPages() {
       <div className="Cooking-Title">{cookingRecipe.name}</div>
       <div className="Cooking-Header">{renderHeader()}</div>
       <div className="Cooking-Body">
-        {/* {renderImage()} */}
         {cookingRecipe.steps[page].image && (
           <div className="Cooking-StepImage">
             <Image
