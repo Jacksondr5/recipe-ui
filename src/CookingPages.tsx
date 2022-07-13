@@ -4,50 +4,15 @@ import { Recipe } from "./recipe";
 import { Image, Button } from "antd";
 import "antd/dist/antd.min.css";
 import "./Cooking.css";
+import { FetchRecipe } from "./fetchRecipe";
+import { emptyRecipe } from "./emptyRecipe";
 
 export default function CookingPages() {
-  const emptyRecipe: Recipe = {
-    id: 0,
-    name: "0",
-    thumbnail: {
-      image: "",
-    },
-    description: "",
-    link: ["0"],
-    metadata: {
-      lastViewed: "0",
-      created: "0",
-      timeToCook: "0",
-    },
-    ingredients: [
-      {
-        ingredient: "",
-        starred: true,
-      },
-    ],
-    steps: [
-      {
-        step: 0,
-        directions: "",
-        image: "",
-      },
-    ],
-  };
-
   const [cookingRecipe, setCookingRecipe] = useState<Recipe>(emptyRecipe);
   const [loading, setLoading] = useState(true);
   const [page, setPage] = useState(0);
 
-  const id = useParams().recipeId;
-  if (!id) {
-    throw new Error("id is undefined");
-  }
-
-  const baseUrl = `${process.env.REACT_APP_API_URL}`;
-  if (!baseUrl || baseUrl === "undefined") {
-    throw new Error("The URL environment variable is undefined/missing");
-  }
-  const cookingUrl = baseUrl + "/recipe/" + id;
+  const cookingUrl = FetchRecipe();
 
   const getRecipe = async () => {
     const response = await fetch(cookingUrl);
@@ -62,90 +27,43 @@ export default function CookingPages() {
   };
 
   useEffect(() => {
-    setLoading(true);
     getRecipe();
   }, []);
 
-  const renderHeader = () => {
+  const renderPrevious = () => {
     if (page === 0) {
-      return (
-        <div className="Cooking-StepBar">
-          <div className="Cooking-Previous"></div>
-          <div className="Cooking-CurrentStep">
-            <p>Step: {cookingRecipe.steps[page].step}</p>
-          </div>
-          <div className="Cooking-Next">
-            <Button
-              size="large"
-              shape="round"
-              onClick={() => setPage(page + 1)}
-            >
-              Next {">"}
-            </Button>
-          </div>
-        </div>
-      );
-    } else if (page === cookingRecipe.steps.length - 1) {
-      return (
-        <div className="Cooking-StepBar">
-          <div className="Cooking-Previous">
-            <Button
-              size="large"
-              shape="round"
-              onClick={() => setPage(page - 1)}
-            >
-              {"<"} Prev
-            </Button>
-          </div>
-          <div className="Cooking-CurrentStep">
-            <p>Step: {cookingRecipe.steps[page].step}</p>
-          </div>
-          <div className="Cooking-Next"></div>
-        </div>
-      );
+      return;
     } else {
       return (
-        <div className="Cooking-StepBar">
-          <div className="Cooking-Previous">
-            <Button
-              size="large"
-              shape="round"
-              onClick={() => setPage(page - 1)}
-            >
-              {"<"} Prev
-            </Button>
-          </div>
-          <div className="Cooking-CurrentStep">
-            <p>Step: {cookingRecipe.steps[page].step}</p>
-          </div>
-          <div className="Cooking-Next">
-            <Button
-              size="large"
-              shape="round"
-              onClick={() => setPage(page + 1)}
-            >
-              Next {">"}
-            </Button>
-          </div>
-        </div>
+        <Button size="large" shape="round" onClick={() => setPage(page - 1)}>
+          {"<"} Prev
+        </Button>
       );
     }
   };
 
-  const renderImage = () => {
-    if (cookingRecipe.steps[page].image !== "") {
-      return (
-        <div className="Cooking-StepImage">
-          <Image
-            width={300}
-            height={200}
-            src={cookingRecipe.steps[page].image}
-          />
-        </div>
-      );
-    } else {
+  const renderNext = () => {
+    if (page === cookingRecipe.steps.length - 1) {
       return;
+    } else {
+      return (
+        <Button size="large" shape="round" onClick={() => setPage(page + 1)}>
+          Next {">"}
+        </Button>
+      );
     }
+  };
+
+  const renderHeader = () => {
+    return (
+      <div className="Cooking-StepBar">
+        <div className="Cooking-Previous">{renderPrevious()}</div>
+        <div className="Cooking-CurrentStep">
+          <p>Step: {cookingRecipe.steps[page].step}</p>
+        </div>
+        <div className="Cooking-Next">{renderNext()}</div>
+      </div>
+    );
   };
 
   if (loading) {
@@ -157,7 +75,16 @@ export default function CookingPages() {
       <div className="Cooking-Title">{cookingRecipe.name}</div>
       <div className="Cooking-Header">{renderHeader()}</div>
       <div className="Cooking-Body">
-        {renderImage()}
+        {/* {renderImage()} */}
+        {cookingRecipe.steps[page].image && (
+          <div className="Cooking-StepImage">
+            <Image
+              width={300}
+              height={200}
+              src={cookingRecipe.steps[page].image}
+            />
+          </div>
+        )}
         <div className="Cooking-Directions">
           <p>{cookingRecipe.steps[page].directions}</p>
         </div>

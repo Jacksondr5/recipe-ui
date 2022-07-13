@@ -4,50 +4,42 @@ import { Recipe } from "./recipe";
 import { Image } from "antd";
 import "antd/dist/antd.min.css";
 import "./Reading.css";
+import { FetchRecipe } from "./fetchRecipe";
+import { emptyRecipe } from "./emptyRecipe";
 
 export default function ReadingPage() {
-  const emptyRecipe: Recipe = {
-    id: 0,
-    name: "0",
-    thumbnail: {
-      image: "",
-    },
-    description: "",
-    link: ["0"],
-    metadata: {
-      lastViewed: "0",
-      created: "0",
-      timeToCook: "0",
-    },
-    ingredients: [
-      {
-        ingredient: "",
-        starred: true,
-      },
-    ],
-    steps: [
-      {
-        step: 0,
-        directions: "",
-        image: "",
-      },
-    ],
-  };
+  // const emptyRecipe: Recipe = {
+  //   id: 0,
+  //   name: "0",
+  //   thumbnail: {
+  //     image: "",
+  //   },
+  //   description: "",
+  //   link: ["0"],
+  //   metadata: {
+  //     lastViewed: "0",
+  //     created: "0",
+  //     timeToCook: "0",
+  //   },
+  //   ingredients: [
+  //     {
+  //       ingredient: "",
+  //       starred: true,
+  //     },
+  //   ],
+  //   steps: [
+  //     {
+  //       step: 0,
+  //       directions: "",
+  //       image: "",
+  //     },
+  //   ],
+  // };
 
   const [readingRecipe, setReadingRecipe] = useState<Recipe>(emptyRecipe);
   const [loading, setLoading] = useState(true);
 
-  const id = useParams().recipeId;
-  if (!id) {
-    throw new Error("id is undefined");
-  }
-
-  const baseUrl = `${process.env.REACT_APP_API_URL}`;
-  if (!baseUrl || baseUrl === "undefined") {
-    throw new Error("The URL environment variable is undefined/missing");
-  }
-
-  const readingUrl = baseUrl + "/recipe/" + id;
+  const readingUrl = FetchRecipe();
 
   const getRecipe = async () => {
     const response = await fetch(readingUrl);
@@ -61,18 +53,7 @@ export default function ReadingPage() {
     setLoading(false);
   };
 
-  const showImage = (imageSrc: string) => {
-    if (imageSrc !== "") {
-      return (
-        <div>
-          <Image height={100} src={imageSrc} />
-        </div>
-      );
-    }
-  };
-
   useEffect(() => {
-    setLoading(true);
     getRecipe();
   }, []);
 
@@ -104,16 +85,18 @@ export default function ReadingPage() {
         </div>
 
         {readingRecipe.steps.map((step, index) => (
-          <div className="Reading-SecondBox">
-            <div className="Reading-Steps" key={index}>
-              <p>
+          <div className="Reading-SecondBox" key={index}>
+            <div className="Reading-Steps">
+              <span>
                 <p style={{ fontSize: "20px", fontWeight: "bold" }}>
                   Step {step.step}:
                 </p>{" "}
                 {step.directions}
-              </p>
+              </span>
             </div>
-            <div className="Reading-ImageStep">{showImage(step.image)}</div>
+            <div className="Reading-ImageStep">
+              {step.image && <Image height={100} src={step.image} />}
+            </div>
           </div>
         ))}
       </div>
