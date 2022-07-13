@@ -100,6 +100,11 @@ function App() {
 
   return (
     <div className="App">
+      <div className="App-NewRecipe">
+        <Link to="/newrecipe">
+          <Button>New Recipe</Button>
+        </Link>
+      </div>
       <div className="App-Ipad">
         {allRecipes.map((recipe, index) => (
           <div className="App-Recipes" key={index}>

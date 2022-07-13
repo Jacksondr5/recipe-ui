@@ -1,5 +1,4 @@
 import { Recipe } from "./recipe";
-import { useParams } from "react-router-dom";
 
 export async function FetchRecipe(id: string | undefined) {
   if (!id) {
