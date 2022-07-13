@@ -8,34 +8,6 @@ import { FetchRecipe } from "./fetchRecipe";
 import { emptyRecipe } from "./emptyRecipe";
 
 export default function ReadingPage() {
-  // const emptyRecipe: Recipe = {
-  //   id: 0,
-  //   name: "0",
-  //   thumbnail: {
-  //     image: "",
-  //   },
-  //   description: "",
-  //   link: ["0"],
-  //   metadata: {
-  //     lastViewed: "0",
-  //     created: "0",
-  //     timeToCook: "0",
-  //   },
-  //   ingredients: [
-  //     {
-  //       ingredient: "",
-  //       starred: true,
-  //     },
-  //   ],
-  //   steps: [
-  //     {
-  //       step: 0,
-  //       directions: "",
-  //       image: "",
-  //     },
-  //   ],
-  // };
-
   const [readingRecipe, setReadingRecipe] = useState<Recipe>(emptyRecipe);
   const [loading, setLoading] = useState(true);
 
