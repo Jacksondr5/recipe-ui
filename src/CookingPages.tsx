@@ -68,6 +68,7 @@ export default function CookingPages() {
               width={300}
               height={200}
               src={cookingRecipe.steps[page].image}
+              style={{ objectFit: "cover" }}
             />
           </div>
         )}

@@ -30,4 +30,36 @@
   width: 100%;
   display: flex;
   justify-content: center;
+  margin-top: 25px;
+  border-top: solid lightgray;
+  padding: 25px;
+}
+
+.New-InputColor {
+  background-color: rgb(200, 200, 200);
+}
+
+.New-TextColor {
+  color: rgb(200, 200, 200);
+}
+
+.ant-rate-star.ant-rate-star-zero {
+  accent-color: black;
+}
+
+.ant-input-group-addon {
+  background-color: darkgray;
+  border: 0px;
+}
+
+.ant-form-item-control {
+  height: 100%;
+}
+
+.ant-form-item-control-input {
+  height: 100%;
+}
+
+.ant-form-item-control-input-content {
+  height: 100%;
 }
