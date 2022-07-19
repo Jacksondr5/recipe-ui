@@ -64,11 +64,9 @@
 }
 
 .Cooking-StepImage {
-  display: flex;
   align-items: center;
   justify-content: center;
   box-sizing: border-box;
-  object-fit: cover;
   margin-bottom: 50px;
   margin-top: 50px;
 }
