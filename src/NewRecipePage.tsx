@@ -24,6 +24,7 @@ export default function NewRecipe() {
   const [loadedRecipes, setLoadedRecipes] = useState<Recipe[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [form] = Form.useForm();
+  const [modalForm] = Form.useForm();
 
   const baseUrl = `${process.env.REACT_APP_API_URL}`;
   if (!baseUrl || baseUrl === "undefined") {
@@ -81,10 +82,10 @@ export default function NewRecipe() {
         cancelText="Cancel"
         onCancel={() => setVisible(false)}
         onOk={() => {
-          form
+          modalForm
             .validateFields()
             .then((values) => {
-              form.resetFields();
+              modalForm.resetFields();
               onCreate(values);
             })
             .catch((info) => {
@@ -92,7 +93,7 @@ export default function NewRecipe() {
             });
         }}
       >
-        <Form name="selection" form={form}>
+        <Form name="selection" form={modalForm}>
           {someRecipes.map((recipe, index) => (
             <div
               key={index}
