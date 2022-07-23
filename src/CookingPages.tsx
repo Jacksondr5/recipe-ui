@@ -14,7 +14,8 @@ export default function CookingPages() {
 
   const id = useParams().recipeId;
   const getRecipe = async () => {
-    const data = await FetchRecipe(id);
+    const data: Recipe = await FetchRecipe(id);
+
     setCookingRecipe(data);
     setLoading(false);
   };

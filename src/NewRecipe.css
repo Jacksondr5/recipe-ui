@@ -1,16 +1,14 @@
-.New {
-  margin-bottom: 50px auto;
-  margin-top: 0px auto;
+.new {
+  margin-bottom: 50px;
   background-color: #282c34;
   min-height: 100vh;
   clear: both;
-  padding: 0;
   display: flex;
   align-items: center;
   flex-direction: column;
 }
 
-.New-Body {
+.new__body {
   display: flex;
   width: 500px;
   flex-direction: column;
@@ -18,7 +16,7 @@
   margin-top: 25px;
 }
 
-.New-Parameters {
+.new__body__parameters {
   display: flex;
   width: 100%;
   flex-direction: column;
@@ -26,7 +24,7 @@
   color: white;
 }
 
-.New-Submit {
+.new-Submit {
   width: 100%;
   display: flex;
   justify-content: center;
@@ -35,12 +33,25 @@
   padding: 25px;
 }
 
-.New-InputColor {
-  background-color: rgb(200, 200, 200);
+.new-text-color {
+  color: #9a9a9a;
 }
 
-.New-TextColor {
-  color: rgb(200, 200, 200);
+.new__body__form__header {
+  display: inline-flex;
+  justify-content: space-between;
+  width: 100%;
+  color: #9a9a9a;
+}
+
+.new__body__ingredient__star {
+  display: flex;
+  padding: 0px;
+  margin: 0px;
+}
+
+.new__body__delete-button--red {
+  color: red;
 }
 
 .ant-rate-star.ant-rate-star-zero {
