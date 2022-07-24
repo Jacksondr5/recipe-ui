@@ -68,6 +68,10 @@
   margin-top: 50px;
 }
 
+.Cooking-StepImage-Crop {
+  object-fit: cover;
+}
+
 .Cooking-Directions {
   display: flex;
   width: 70%;

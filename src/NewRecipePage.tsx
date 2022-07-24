@@ -16,6 +16,7 @@ import {
   Select,
 } from "antd";
 import { DeleteOutlined, PlusOutlined } from "@ant-design/icons";
+import type { NotificationPlacement } from "antd/es/notification";
 
 export default function NewRecipe() {
   const { TextArea, Search } = Input;
@@ -38,7 +39,7 @@ export default function NewRecipe() {
   }, []);
 
   const submitRecipe = async (values: AddRecipeForm) => {
-    var image = "";
+    let image = "";
     if (values.thumbnail !== undefined) {
       image = values.thumbnail;
     }
@@ -63,8 +64,7 @@ export default function NewRecipe() {
         directions: step.directions,
       }));
 
-    const now = dayjs();
-    const date = now.format("MM/DD/YYYY");
+    const date = dayjs().format("MM/DD/YYYY");
 
     type RecipePreview = Omit<Recipe, "id">;
 
@@ -81,34 +81,32 @@ export default function NewRecipe() {
       ingredients: ingredientArray,
       steps: stepArray,
     };
-    console.log(newRecipe);
-    console.log(allRecipes[3]);
 
     const requestOptions = {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(newRecipe),
     };
-    // const response = await PutRecipe(requestOptions);
+    const response = await PostRecipe(requestOptions);
 
-    // const placement: NotificationPlacement = "top";
-    // if (response.status === 201) {
-    //   notification.open({
-    //     message: "Recipe Successfully Added!",
-    //     description: values.name + " was added",
-    //     placement,
-    //   });
-    //   form.resetFields();
-    // } else {
-    //   notification.open({
-    //     message: "Recipe Not Added...",
-    //     description: "Response code: " + response.status,
-    //     placement,
-    //   });
-    // }
+    const placement: NotificationPlacement = "top";
+    if (response.status === 201) {
+      notification.open({
+        message: "Recipe Successfully Added!",
+        description: values.name + " was added",
+        placement,
+      });
+      form.resetFields();
+    } else {
+      notification.open({
+        message: "Recipe Not Added...",
+        description: "Response code: " + response.status,
+        placement,
+      });
+    }
   };
 
-  const selectChange = (value: string[]) => {
+  const onRecommendationsChange = (value: string[]) => {
     setRecommendedRecipeNames(value);
   };
 
@@ -271,7 +269,7 @@ export default function NewRecipe() {
                 mode="multiple"
                 allowClear
                 placeholder="Please Select"
-                onChange={selectChange}
+                onChange={onRecommendationsChange}
               >
                 {allRecipes.map((recipe) => (
                   <Option key={recipe.name}>{recipe.name}</Option>
