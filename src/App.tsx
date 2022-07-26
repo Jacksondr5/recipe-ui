@@ -1,30 +1,18 @@
 import React, { useEffect, useState } from "react";
 import "antd/dist/antd.min.css";
 import "./App.css";
-import { Recipe } from "./recipe";
+import { UiRecipe } from "./recipe";
+import { FetchRecipe } from "./fetchRecipe";
 import { Button, Collapse, Image } from "antd";
 import { DeleteOutlined, EditOutlined } from "@ant-design/icons";
 import { Link } from "react-router-dom";
 
 function App() {
-  type UiRecipe = Recipe & {
-    thumbnail: {
-      show: boolean;
-    };
-  };
-
-  const baseUrl = `${process.env.REACT_APP_API_URL}`;
-  if (!baseUrl || baseUrl === "undefined") {
-    throw new Error("The URL environment variable is undefined/missing");
-  }
-
-  const url = baseUrl + "/recipe";
   const [allRecipes, setAllRecipes] = useState<UiRecipe[]>([]);
   const [loading, setLoading] = useState(true);
 
   const getAllRecipes = async () => {
-    const response = await fetch(url);
-    const data: UiRecipe[] = await response.json();
+    const data: UiRecipe[] = await FetchRecipe();
     if (!data) {
       throw new Error(
         "The fetch call did not return any data matching the Recipe Type"
@@ -100,6 +88,11 @@ function App() {
 
   return (
     <div className="App">
+      <div className="App-NewRecipe">
+        <Link to="/newrecipe">
+          <Button>New Recipe</Button>
+        </Link>
+      </div>
       <div className="App-Ipad">
         {allRecipes.map((recipe, index) => (
           <div className="App-Recipes" key={index}>

@@ -29,3 +29,9 @@ export interface Steps {
   directions: string;
   image: string;
 }
+
+export type UiRecipe = Recipe & {
+  thumbnail: {
+    show: boolean;
+  };
+};

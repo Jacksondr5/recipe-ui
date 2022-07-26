@@ -13,7 +13,7 @@ export default function ReadingPage() {
 
   const id = useParams().recipeId;
   const getRecipe = async () => {
-    const data = await FetchRecipe(id);
+    const data: Recipe = await FetchRecipe(id);
     setReadingRecipe(data);
     setLoading(false);
   };

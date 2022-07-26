@@ -14,7 +14,8 @@ export default function CookingPages() {
 
   const id = useParams().recipeId;
   const getRecipe = async () => {
-    const data = await FetchRecipe(id);
+    const data: Recipe = await FetchRecipe(id);
+
     setCookingRecipe(data);
     setLoading(false);
   };
@@ -68,6 +69,7 @@ export default function CookingPages() {
               width={300}
               height={200}
               src={cookingRecipe.steps[page].image}
+              className="Cooking-StepImage-Crop"
             />
           </div>
         )}
