@@ -1,4 +1,4 @@
-import { Recipe } from "./recipe";
+import { Recipe, NumberRecipe } from "./recipe";
 
 export const emptyRecipe: Recipe = {
   id: 0,
@@ -17,6 +17,34 @@ export const emptyRecipe: Recipe = {
     {
       ingredient: "",
       starred: true,
+    },
+  ],
+  steps: [
+    {
+      step: 0,
+      directions: "",
+      image: "",
+    },
+  ],
+};
+
+export const emptyNumberRecipe: NumberRecipe = {
+  id: 0,
+  name: "0",
+  thumbnail: {
+    image: "",
+  },
+  description: "",
+  link: ["0"],
+  metadata: {
+    lastViewed: "0",
+    created: "0",
+    timeToCook: "0",
+  },
+  ingredients: [
+    {
+      ingredient: "",
+      starred: 0,
     },
   ],
   steps: [

@@ -20,6 +20,7 @@ root.render(
         <Route path="reading/:recipeId" element={<ReadingPages />}></Route>
         <Route path="cooking/:recipeId" element={<CookingPages />}></Route>
         <Route path="newrecipe" element={<NewRecipe />}></Route>
+        <Route path="editrecipe/:recipeId" element={<NewRecipe />}></Route>
         <Route
           path="*"
           element={
