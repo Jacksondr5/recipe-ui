@@ -30,16 +30,16 @@ export const emptyRecipe: Recipe = {
 
 export const emptyNumberRecipe: NumberRecipe = {
   id: 0,
-  name: "0",
+  name: "",
   thumbnail: {
     image: "",
   },
   description: "",
-  link: ["0"],
+  link: [],
   metadata: {
-    lastViewed: "0",
-    created: "0",
-    timeToCook: "0",
+    lastViewed: "",
+    created: "",
+    timeToCook: "",
   },
   ingredients: [
     {

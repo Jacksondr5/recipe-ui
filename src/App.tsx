@@ -86,9 +86,10 @@ function App() {
     }
   };
 
-  const deleteRecipe = (recipeId: number) => {
-    DeleteRecipe(recipeId);
-    window.location.reload();
+  const deleteRecipe = async (recipeId: number) => {
+    await DeleteRecipe(recipeId);
+    setLoading(true);
+    getAllRecipes();
   };
 
   if (loading) {
