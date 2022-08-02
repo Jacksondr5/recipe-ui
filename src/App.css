@@ -111,11 +111,14 @@
 .App-DeleteButton {
   display: flex;
   justify-content: center;
-  padding: 15px;
+  margin-top: 35px;
 }
 
 .App-Extra {
   display: flex;
   justify-content: space-between;
+}
+
+.app-edit-button {
   padding: 10px;
 }

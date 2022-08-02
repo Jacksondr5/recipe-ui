@@ -1,3 +1,5 @@
+import { idText } from "typescript";
+
 const baseUrl = `${process.env.REACT_APP_API_URL}`;
 if (!baseUrl || baseUrl === "undefined") {
   throw new Error("The URL environment variable is undefined/missing");
@@ -27,4 +29,22 @@ export async function PostRecipe(options: {
   const url = baseUrl + "/recipe";
   const response = await fetch(url, options);
   return response;
+}
+
+export async function PutRecipe(
+  options: {
+    method: string;
+    headers: { "Content-Type": string };
+    body: string;
+  },
+  id: number
+) {
+  const url = baseUrl + "/recipe/" + id;
+  const response = await fetch(url, options);
+  return response;
+}
+
+export async function DeleteRecipe(id: number) {
+  const url = baseUrl + "/recipe/" + id;
+  await fetch(url, { method: "DELETE" });
 }

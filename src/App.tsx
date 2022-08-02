@@ -3,9 +3,10 @@ import "antd/dist/antd.min.css";
 import "./App.css";
 import { UiRecipe } from "./recipe";
 import { FetchRecipe } from "./fetchRecipe";
-import { Button, Collapse, Image } from "antd";
+import { Button, Collapse, Image, Popconfirm } from "antd";
 import { DeleteOutlined, EditOutlined } from "@ant-design/icons";
 import { Link } from "react-router-dom";
+import { DeleteRecipe } from "./fetchRecipe";
 
 function App() {
   const [allRecipes, setAllRecipes] = useState<UiRecipe[]>([]);
@@ -53,14 +54,17 @@ function App() {
 
   const { Panel } = Collapse;
 
-  const genExtra = () => (
+  const genExtra = (recipeId: number) => (
     <div className="App-Extra">
-      <EditOutlined
-        onClick={(event) => {
-          // If you don't want click extra trigger collapse, you can prevent this:
-          event.stopPropagation();
-        }}
-      />
+      <Link to={`/editrecipe/${recipeId}`}>
+        <EditOutlined
+          onClick={(event) => {
+            // If you don't want click extra trigger collapse, you can prevent this:
+            event.stopPropagation();
+          }}
+          className="app-edit-button"
+        />
+      </Link>
     </div>
   );
 
@@ -74,12 +78,18 @@ function App() {
   };
 
   const getRecommendationName = (id: string) => {
-    var recommendation = allRecipes.find(
+    let recommendation = allRecipes.find(
       (recipe) => recipe.id === parseInt(id)
     );
     if (recommendation !== undefined) {
       return recommendation.name;
     }
+  };
+
+  const deleteRecipe = async (recipeId: number) => {
+    await DeleteRecipe(recipeId);
+    setLoading(true);
+    getAllRecipes();
   };
 
   if (loading) {
@@ -120,7 +130,7 @@ function App() {
                     </div>
                   }
                   key={index}
-                  extra={genExtra()}
+                  extra={genExtra(recipe.id)}
                 >
                   <div className="App-FirstSection">
                     <div className="App-DescriptionBox">
@@ -170,7 +180,14 @@ function App() {
                     </div>
                   </div>
                   <div className="App-DeleteButton">
-                    <Button danger icon={<DeleteOutlined />}></Button>
+                    <Popconfirm
+                      title="Delete this recipe?"
+                      onConfirm={() => deleteRecipe(recipe.id)}
+                      okText="Delete"
+                      cancelText="Cancel"
+                    >
+                      <Button danger icon={<DeleteOutlined />}></Button>
+                    </Popconfirm>
                   </div>
                 </Panel>
               </Collapse>

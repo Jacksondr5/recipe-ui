@@ -15,7 +15,7 @@ export interface Thumbnail {
 
 export interface Ingredient {
   ingredient: string;
-  starred: boolean;
+  starred: Boolean;
 }
 
 export interface Metadata {
@@ -34,4 +34,22 @@ export type UiRecipe = Recipe & {
   thumbnail: {
     show: boolean;
   };
+};
+
+export interface NumberIngredient {
+  ingredient: string;
+  starred: number;
+}
+
+export interface AmbiguousIngredient {
+  ingredient: string;
+  starred: number | boolean;
+}
+
+export type NumberRecipe = Omit<Recipe, "ingredients"> & {
+  ingredients: NumberIngredient[];
+};
+
+export type AmbiguousRecipe = Omit<Recipe, "ingredients"> & {
+  ingredients: AmbiguousIngredient[];
 };
